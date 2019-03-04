@@ -36,22 +36,6 @@ public class FruitListAdapter extends RecyclerView.Adapter<FruitListAdapter.View
 
 		viewHolder.tvName.setText(fruit.getName());
 		viewHolder.tvCount.setText(String.valueOf(fruit.getCount()));
-
-		// Make a callback to the @FruitsClickListener.onPlusClick when clicking the plus button.
-		viewHolder.ibPlus.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				fruitsClickListener.onPlusClick(fruit);
-			}
-		});
-
-		// Make a callback to the @FruitsClickListener.onMinusClick when clicking the minus button.
-		viewHolder.ibMinus.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				fruitsClickListener.onMinusClick(fruit);
-			}
-		});
 	}
 
 	@Override
@@ -71,6 +55,22 @@ public class FruitListAdapter extends RecyclerView.Adapter<FruitListAdapter.View
 			tvCount = itemView.findViewById(R.id.tv_count);
 			ibPlus = itemView.findViewById(R.id.ib_plus);
 			ibMinus = itemView.findViewById(R.id.ib_minus);
+
+			// Make a callback to the @FruitsClickListener.onPlusClick when clicking the plus button.
+			ibPlus.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					fruitsClickListener.onPlusClick(fruits.get(getAdapterPosition()));
+				}
+			});
+
+			// Make a callback to the @FruitsClickListener.onMinusClick when clicking the minus button.
+			ibMinus.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					fruitsClickListener.onMinusClick(fruits.get(getAdapterPosition()));
+				}
+			});
 		}
 	}
 
