@@ -15,9 +15,11 @@ import java.util.List;
 public class FruitListAdapter extends RecyclerView.Adapter<FruitListAdapter.ViewHolder> {
 
 	private List<Fruit> fruits;
+	private FruitsClickListener fruitsClickListener;
 
-	public FruitListAdapter(List<Fruit> fruits) {
+	public FruitListAdapter(List<Fruit> fruits, FruitsClickListener fruitsClickListener) {
 		this.fruits = fruits;
+		this.fruitsClickListener = fruitsClickListener;
 	}
 
 	@NonNull
@@ -30,10 +32,26 @@ public class FruitListAdapter extends RecyclerView.Adapter<FruitListAdapter.View
 
 	@Override
 	public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-		Fruit fruit = fruits.get(i);
+		final Fruit fruit = fruits.get(i);
 
 		viewHolder.tvName.setText(fruit.getName());
 		viewHolder.tvCount.setText(String.valueOf(fruit.getCount()));
+
+		// Make a callback to the @FruitsClickListener.onPlusClick when clicking the plus button.
+		viewHolder.ibPlus.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				fruitsClickListener.onPlusClick(fruit);
+			}
+		});
+
+		// Make a callback to the @FruitsClickListener.onMinusClick when clicking the minus button.
+		viewHolder.ibMinus.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				fruitsClickListener.onMinusClick(fruit);
+			}
+		});
 	}
 
 	@Override
@@ -54,5 +72,11 @@ public class FruitListAdapter extends RecyclerView.Adapter<FruitListAdapter.View
 			ibPlus = itemView.findViewById(R.id.ib_plus);
 			ibMinus = itemView.findViewById(R.id.ib_minus);
 		}
+	}
+
+	public interface FruitsClickListener {
+		void onPlusClick(Fruit fruit);
+
+		void onMinusClick(Fruit fruit);
 	}
 }

@@ -7,12 +7,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FruitListAdapter.FruitsClickListener {
 
 	private List<Fruit> fruits = new ArrayList<>();
 	private RecyclerView rvFruits;
@@ -32,8 +33,10 @@ public class MainActivity extends AppCompatActivity {
 		setTitle("Fruits");
 	}
 
+	// All Activity methods left out for abbreviation
+
 	private void initFruitsList() {
-		fruitListAdapter = new FruitListAdapter(fruits);
+		fruitListAdapter = new FruitListAdapter(fruits, this);
 		rvFruits = findViewById(R.id.rv_fruits);
 		rvFruits.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 		rvFruits.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
@@ -44,10 +47,10 @@ public class MainActivity extends AppCompatActivity {
 		Fruit lemon = new Fruit("Lemon", 3);
 		Fruit mango = new Fruit("Mango", 10);
 		fruits.addAll(Arrays.asList(banana, apple, lemon, mango));
-		updateRecyclerView();
+		updateUI();
 	}
 
-	private void updateRecyclerView() {
+	private void updateUI() {
 		fruitListAdapter.notifyDataSetChanged();
 	}
 
@@ -57,4 +60,19 @@ public class MainActivity extends AppCompatActivity {
 		return true;
 	}
 
+	@Override
+	public void onPlusClick(Fruit fruit) {
+		fruit.setCount(fruit.getCount() + 1);
+		updateUI();
+	}
+
+	@Override
+	public void onMinusClick(Fruit fruit) {
+		if (fruit.getCount() > 0) {
+			fruit.setCount(fruit.getCount() - 1);
+			updateUI();
+		} else {
+			Toast.makeText(this, "You can't have less than zero of a fruit", Toast.LENGTH_LONG).show();
+		}
+	}
 }
