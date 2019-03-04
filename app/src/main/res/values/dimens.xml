@@ -1,0 +1,6 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="item_fruit_button_size">38dp</dimen>
+    <dimen name="default_padding">12dp</dimen>
+    <dimen name="big_text_size">24sp</dimen>
+</resources>
